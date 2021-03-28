@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MLRecognition</string>
+    <string name="run_text_scanner">Run text scanner</string>
+    <string name="run_face_scanner">Run face scanner</string>
+    <string name="scan_failed">Scan failed. Please try again</string>
+</resources>

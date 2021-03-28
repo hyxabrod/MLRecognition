@@ -1,0 +1,83 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 25
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+ext {
+    // Android
+    constraint_layout_version = '2.0.4'
+    appcompat_version = '1.2.0'
+    material_version = '1.3.0'
+    // Kotlin
+    ktx_version = '1.3.2'
+    fragment_ktx_version = '1.3.1'
+    // LiveData
+    livedata_version = '2.3.0'
+    // Testing
+    junit_version = '4.13.2'
+    hamcrest_version = '2.2'
+    mockito_kotlin_version = '2.2.0'
+    mockito_inline_version = '2.13.0'
+    // Camera
+    camera_version = '1.1.0-alpha03'
+    camera_view_version = '1.0.0-alpha23'
+    // ML
+    ml_text_recognition = '16.1.3'
+    ml_face_recognition = '16.0.5'
+
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:$ktx_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_ktx_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+
+    //camera x
+    implementation "androidx.camera:camera-core:$camera_version"
+    implementation "androidx.camera:camera-camera2:$camera_version"
+    implementation "androidx.camera:camera-lifecycle:$camera_version"
+    implementation "androidx.camera:camera-view:$camera_view_version"
+    implementation "androidx.camera:camera-lifecycle:$camera_version"
+
+    implementation "com.google.android.gms:play-services-mlkit-text-recognition:$ml_text_recognition"
+    implementation "com.google.mlkit:face-detection:$ml_face_recognition"
+
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.hamcrest:hamcrest:$hamcrest_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_inline_version"
+}

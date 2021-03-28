@@ -1,0 +1,3 @@
+include ':scansdk'
+include ':app'
+rootProject.name = "MLRecognition"
