@@ -12,7 +12,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
     scanSDK = ScanSDK.init(this)
 }
 ```
-#### Via Dagger method module
+#### ...or via Dagger method module
 ```kotlin
 
 @Module
