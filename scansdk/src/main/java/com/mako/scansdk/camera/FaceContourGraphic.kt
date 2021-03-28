@@ -10,7 +10,7 @@ import com.google.mlkit.vision.face.Face
  * @param imageRect {@link Rect}
  * @param facePositioningListener {@link FacePositionListener} face position listener
  */
-class FaceContourGraphic(
+internal class FaceContourGraphic(
     private val overlay: GraphicOverlay,
     private val face: Face,
     private val imageRect: Rect,

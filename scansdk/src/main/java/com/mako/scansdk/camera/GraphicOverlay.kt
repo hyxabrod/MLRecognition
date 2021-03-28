@@ -13,7 +13,7 @@ import kotlin.math.ceil
 /**
  * Overlay view to draw above camera layer
  */
-open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
+internal class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
     View(context, attrs) {
 
     private val lock = Any()

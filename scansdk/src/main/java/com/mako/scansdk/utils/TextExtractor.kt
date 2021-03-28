@@ -2,7 +2,7 @@ package com.mako.scansdk.utils
 
 import com.google.mlkit.vision.text.Text
 
-object TextExtractor {
+internal object TextExtractor {
     /**
      * Extracts text from the recognized data
      * @param text recognized by SDK

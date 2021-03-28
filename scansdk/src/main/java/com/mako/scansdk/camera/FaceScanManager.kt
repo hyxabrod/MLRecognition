@@ -28,7 +28,7 @@ private const val TAG_FACE_SCAN = "Face scan debug"
  * @param lifecycleOwner {@link LifecycleOwner}
  * @param graphicOverlay {@link GraphicOverlay}
  */
-class FaceScanManager(
+internal class FaceScanManager(
     context: Context,
     private val finderView: PreviewView,
     private val lifecycleOwner: LifecycleOwner,

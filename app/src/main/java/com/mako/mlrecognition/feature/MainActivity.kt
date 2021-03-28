@@ -2,7 +2,6 @@ package com.mako.mlrecognition.feature
 
 import android.annotation.SuppressLint
 import android.graphics.*
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -12,12 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.mako.mlrecognition.R
 import com.mako.mlrecognition.feature.MainViewModel.*
 import com.mako.scansdk.*
@@ -32,7 +26,7 @@ class MainActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val scanTextFragmentTag by lazy { ScanIDCardFragment::class.java.canonicalName }
+    private val scanIDFragmentTag by lazy { ScanIDCardFragment::class.java.canonicalName }
     private val scanFaceFragmentTag by lazy { ScanFaceFragment::class.java.canonicalName }
 
     private val viewModel: MainViewModel by viewModels() {
@@ -107,7 +101,7 @@ class MainActivity : DaggerAppCompatActivity() {
             if (fragment.isAdded) return
             supportFragmentManager.apply {
                 with(beginTransaction()) {
-                    add(android.R.id.content, fragment, scanTextFragmentTag)
+                    add(android.R.id.content, fragment, scanIDFragmentTag)
                     commit()
                 }
                 setFragmentResultListener(
@@ -132,7 +126,7 @@ class MainActivity : DaggerAppCompatActivity() {
                     commit()
                 }
                 setFragmentResultListener(
-                    SCAN_TEXT_RESULT_KEY,
+                    SCAN_FACE_RESULT_KEY,
                     this@MainActivity
                 ) { _, bundle ->
                     lifecycleScope.launchWhenResumed {
@@ -153,7 +147,7 @@ class MainActivity : DaggerAppCompatActivity() {
     private var currentFragment: Fragment? = null
 
     private fun getScanIdFragment() =
-        supportFragmentManager.findFragmentByTag(scanTextFragmentTag)
+        supportFragmentManager.findFragmentByTag(scanIDFragmentTag)
             ?: ScanIDCardFragment.newInstance()
 
     private fun getScanFaceFragment() =

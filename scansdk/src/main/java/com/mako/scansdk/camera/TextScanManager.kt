@@ -24,7 +24,7 @@ private const val TAG_TEXT_SCAN = "Text scan debug"
  * @param finderView {@link PreviewView} shows camera preview
  * @param lifecycleOwner {@link LifecycleOwner}
  */
-class TextScanManager(
+internal class TextScanManager(
     context: Context,
     private val finderView: PreviewView,
     private val lifecycleOwner: LifecycleOwner,

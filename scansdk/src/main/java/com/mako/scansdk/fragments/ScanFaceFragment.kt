@@ -25,7 +25,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-const val SCAN_TEXT_RESULT_KEY = "scan_text_result_key"
+const val SCAN_FACE_RESULT_KEY = "scan_face_result_key"
 const val SCAN_FACE_FRAGMENT_RESULT = "scan_face_fragment_result"
 private const val REQUEST_CODE_PERMISSIONS = 2041
 
@@ -90,7 +90,7 @@ class ScanFaceFragment : Fragment(), LifecycleObserver, FacePositionListener {
                             }
                             is FileUtil.SaveToFileResult.FilePath -> {
                                 setFragmentResult(
-                                    SCAN_TEXT_RESULT_KEY,
+                                    SCAN_FACE_RESULT_KEY,
                                     bundleOf(Pair(SCAN_FACE_FRAGMENT_RESULT, it.path))
                                 )
                             }
@@ -102,7 +102,7 @@ class ScanFaceFragment : Fragment(), LifecycleObserver, FacePositionListener {
 
     private fun handleError(message: String?) {
         setFragmentResult(
-            SCAN_TEXT_RESULT_KEY,
+            SCAN_FACE_RESULT_KEY,
             bundleOf(Pair(SCAN_FACE_FRAGMENT_RESULT, message))
         )
     }

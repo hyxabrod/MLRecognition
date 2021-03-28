@@ -16,7 +16,7 @@ import kotlin.coroutines.suspendCoroutine
  * Basic class for scan managers
  * @param context of the application
  */
-abstract class ScanManager(
+internal abstract class ScanManager(
     private val context: Context
 ) : LifecycleObserver {
     internal abstract var imageCapture: ImageCapture?
