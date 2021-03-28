@@ -3,6 +3,7 @@ package com.mako
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mako.mlrecognition.feature.MainViewModel
 import com.mako.scansdk.ScanSDK
+import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
@@ -13,6 +14,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -104,9 +106,18 @@ class MainViewModelTest {
         }
     }
 
+
+    @Test
+    fun `call SDK clean methos`(){
+        runBlocking {
+            initViewModel()
+            viewModel.onDestroy()
+            verify(scanSDK, Mockito.times(1)).clearCachedData()
+        }
+    }
+
     @After
     fun tearDown() {
-        //no-op
     }
 
     private fun initViewModel() {
