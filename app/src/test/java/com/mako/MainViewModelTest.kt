@@ -2,6 +2,7 @@ package com.mako
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mako.mlrecognition.feature.MainViewModel
+import com.mako.scansdk.ScanSDK
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
@@ -11,12 +12,17 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class MainViewModelTest {
     private lateinit var viewModel: MainViewModel
+
+    @Mock
+    private lateinit var scanSDK: ScanSDK
+
     @get:Rule
     val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
 
@@ -104,6 +110,6 @@ class MainViewModelTest {
     }
 
     private fun initViewModel() {
-        viewModel = MainViewModel()
+        viewModel = MainViewModel(scanSDK)
     }
 }
