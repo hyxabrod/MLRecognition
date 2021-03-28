@@ -14,7 +14,6 @@ class MLSdkAppImpl: Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
-        ScanSDK.init(this)
         initDagger()
     }
 
