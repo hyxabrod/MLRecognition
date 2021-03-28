@@ -171,7 +171,7 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     override fun onDestroy() {
-        //Glide.with(this).clear(iv_scanned_face)
+        Glide.with(this).clear(iv_scanned_face)
         viewModel.onDestroy()
         super.onDestroy()
     }
