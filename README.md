@@ -35,6 +35,7 @@ override fun onDestroy() {
     }
 ```
 
+### Creating UI
 #### Create face recognition fragment
 ```kotlin
 ...
@@ -48,7 +49,7 @@ override fun onDestroy() {
    fragment = ScanIDCardFragment.newInstance()
 ...
 ```
-
+### Getting results
 #### Subscribe for ID text recognition results
 ##### Returns either List of the recognized strings, or null is case of an error
 ```kotlin
