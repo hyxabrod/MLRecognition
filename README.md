@@ -1,8 +1,9 @@
 # MLRecognition
-Face and text recognition
+Face and text recognition SDK
+Provides fragments UI and ML recognition (with returning results)
  
 
-### Init SDK 
+### SDK initialization
 #### In onCreate(..) method of Application or Activity class
 ```kotlin
 
@@ -23,4 +24,58 @@ class ScanModule {
         return ScanSDK.init(context)
     }
 }
+```
+
+#### Clear cached data on view  destroyed
+```kotlin
+
+override fun onDestroy() {
+        scanSDK.clearCachedData()
+        super.onDestroy()
+    }
+```
+
+#### Create face recognition fragment
+```kotlin
+...
+   fragment = ScanFaceFragment.newInstance()
+...
+```
+
+#### Create ID recognition fragment
+```kotlin
+...
+   fragment = ScanIDCardFragment.newInstance()
+...
+```
+
+#### Subscribe for ID text recognition results
+##### Returns either List of the recognized strings, or null is case of an error
+```kotlin
+...
+   fragment.setFragmentResultListener(
+                    SCAN_ID_FRAGMENT_RESULT_KEY,
+                    this@MainActivity
+                ) { _, bundle ->
+                        ...
+                        onHandleFaceScanResult(bundle.getString(SCAN_ID_FRAGMENT_RESULT))
+                        ...
+                }
+...
+```
+
+
+#### Subscribe for face recognition results
+##### Returns either path to image file, or null is case of an error
+```kotlin
+...
+   fragment.setFragmentResultListener(
+                    SCAN_FACE_RESULT_KEY,
+                    this@MainActivity
+                ) { _, bundle ->
+                        ...
+                        onHandleFaceScanResult(bundle.getString(SCAN_FACE_FRAGMENT_RESULT))
+                        ...
+                }
+...
 ```
