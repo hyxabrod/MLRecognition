@@ -11,6 +11,7 @@ import androidx.camera.view.PreviewView
 import androidx.lifecycle.*
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
+import com.mako.scansdk.ScanSDK
 import com.mako.scansdk.utils.TextExtractor
 import com.mako.scansdk.utils.takePicture
 import java.util.concurrent.ExecutorService
@@ -30,7 +31,7 @@ internal class TextScanManager(
     private val lifecycleOwner: LifecycleOwner,
 ) : ScanManager(context) {
     override var imageCapture: ImageCapture? = null
-    override var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
+    override var cameraExecutor = Executors.newSingleThreadExecutor()
     override var cameraProviderFuture: ProcessCameraProvider? = null
 
     /**
@@ -39,6 +40,13 @@ internal class TextScanManager(
     override fun startCamera() {
         lifecycleOwner.lifecycleScope.launchWhenResumed {
             cameraProviderFuture = getCameraProvider()
+
+            if(cameraProviderFuture?.availableCameraInfos?.size == 0){
+                Log.w(TAG_TEXT_SCAN, "No cameras found")
+                onCameraErrorCallback()
+                return@launchWhenResumed
+            }
+
             val preview = Preview.Builder()
                 .build()
                 .apply {

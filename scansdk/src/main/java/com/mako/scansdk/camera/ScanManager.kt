@@ -19,9 +19,10 @@ import kotlin.coroutines.suspendCoroutine
 internal abstract class ScanManager(
     private val context: Context
 ) : LifecycleObserver {
-    internal abstract var imageCapture: ImageCapture?
-    internal abstract var cameraExecutor: ExecutorService
-    internal abstract var cameraProviderFuture: ProcessCameraProvider?
+    abstract var imageCapture: ImageCapture?
+    abstract var cameraExecutor: ExecutorService
+    abstract var cameraProviderFuture: ProcessCameraProvider?
+    protected lateinit var onCameraErrorCallback: () -> Unit
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private fun connectListener() {
@@ -47,12 +48,19 @@ internal abstract class ScanManager(
      * Asynchronously returns camera provider
      * @return {@link ProcessCameraProvider}
      */
-    internal suspend fun getCameraProvider(): ProcessCameraProvider =
-        suspendCoroutine { continuation ->
-            ProcessCameraProvider.getInstance(context).apply {
-                addListener(Runnable {
-                    continuation.resume(get())
-                }, cameraExecutor)
-            }
+    suspend fun getCameraProvider(): ProcessCameraProvider = suspendCoroutine { continuation ->
+        ProcessCameraProvider.getInstance(context).apply {
+            addListener({
+                continuation.resume(get())
+            }, cameraExecutor)
         }
+    }
+
+    /**
+     * Error camera callback
+     * @param block error callback
+     */
+    fun setCameraErrorCallback(block: () -> Unit) {
+        onCameraErrorCallback = block
+    }
 }

@@ -27,35 +27,14 @@ internal class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
         abstract fun draw(canvas: Canvas?)
 
         fun calculateRect(height: Float, width: Float, boundingBoxT: Rect): RectF {
-
-            // for land scape
-            fun isLandScapeMode(): Boolean {
-                return overlay.context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-            }
-
-            fun whenLandScapeModeWidth(): Float {
-                return when (isLandScapeMode()) {
-                    true -> width
-                    false -> height
-                }
-            }
-
-            fun whenLandScapeModeHeight(): Float {
-                return when (isLandScapeMode()) {
-                    true -> height
-                    false -> width
-                }
-            }
-
-            val scaleX = overlay.width.toFloat() / whenLandScapeModeWidth()
-            val scaleY = overlay.height.toFloat() / whenLandScapeModeHeight()
+            val scaleX = overlay.width.toFloat() / height
+            val scaleY = overlay.height.toFloat() / width
             val scale = scaleX.coerceAtLeast(scaleY)
             overlay.mScale = scale
 
             // Calculate offset (we need to center the overlay on the target)
-            val offsetX = (overlay.width.toFloat() - ceil(whenLandScapeModeWidth() * scale)) / 2.0f
-            val offsetY =
-                (overlay.height.toFloat() - ceil(whenLandScapeModeHeight() * scale)) / 2.0f
+            val offsetX = (overlay.width.toFloat() - ceil(height * scale)) / 2.0f
+            val offsetY = (overlay.height.toFloat() - ceil(width * scale)) / 2.0f
 
             overlay.mOffsetX = offsetX
             overlay.mOffsetY = offsetY

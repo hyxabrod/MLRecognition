@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.*
 import com.mako.scansdk.R
+import com.mako.scansdk.ScanSDK
 import com.mako.scansdk.camera.TextScanManager
 import kotlinx.android.synthetic.main.scan_id_card_fragment.*
 
@@ -30,6 +31,7 @@ class ScanIDCardFragment : Fragment(), LifecycleObserver {
         private val REQUIRED_PERMISSIONS = arrayOf(
             Manifest.permission.CAMERA
         )
+
         fun newInstance() = ScanIDCardFragment()
     }
 
@@ -57,7 +59,14 @@ class ScanIDCardFragment : Fragment(), LifecycleObserver {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        cameraManagerManager = TextScanManager(requireActivity(), pv_preview, requireActivity())
+        cameraManagerManager = TextScanManager(requireActivity(), pv_preview, this).also {
+            it.setCameraErrorCallback {
+                if (isAdded) {
+                    Toast.makeText(requireActivity(), "No cameras found", Toast.LENGTH_SHORT).show()
+                    requireActivity().onBackPressed()
+                }
+            }
+        }
 
         lifecycle.addObserver(cameraManagerManager)
         setupViews()

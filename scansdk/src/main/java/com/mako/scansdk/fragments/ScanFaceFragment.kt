@@ -61,6 +61,12 @@ class ScanFaceFragment : Fragment(), LifecycleObserver, FacePositionListener {
             overlay_face
         ).also {
             it.setCorrectFacePositionListener(this)
+            it.setCameraErrorCallback {
+                if (isAdded) {
+                    Toast.makeText(requireActivity(), "No cameras found", Toast.LENGTH_SHORT).show()
+                    requireActivity().onBackPressed()
+                }
+            }
         }
 
         lifecycle.addObserver(cameraManagerManager)
@@ -83,19 +89,19 @@ class ScanFaceFragment : Fragment(), LifecycleObserver, FacePositionListener {
                     requireContext(),
                     it.rotateFlipImage()
                 ).collect {
-                        delay(500)
-                        when (it) {
-                            is FileUtil.SaveToFileResult.Error -> {
-                                handleError(it.e.message)
-                            }
-                            is FileUtil.SaveToFileResult.FilePath -> {
-                                setFragmentResult(
-                                    SCAN_FACE_RESULT_KEY,
-                                    bundleOf(Pair(SCAN_FACE_FRAGMENT_RESULT, it.path))
-                                )
-                            }
+                    delay(500)
+                    when (it) {
+                        is FileUtil.SaveToFileResult.Error -> {
+                            handleError(it.e.message)
+                        }
+                        is FileUtil.SaveToFileResult.FilePath -> {
+                            setFragmentResult(
+                                SCAN_FACE_RESULT_KEY,
+                                bundleOf(Pair(SCAN_FACE_FRAGMENT_RESULT, it.path))
+                            )
                         }
                     }
+                }
             }
         }, ::handleError)
     }

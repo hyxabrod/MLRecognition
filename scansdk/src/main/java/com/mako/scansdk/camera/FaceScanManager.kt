@@ -52,6 +52,12 @@ internal class FaceScanManager(
     override fun startCamera() {
         lifecycleOwner.lifecycleScope.launchWhenResumed {
             cameraProviderFuture = getCameraProvider()
+            if(cameraProviderFuture?.availableCameraInfos?.size == 0){
+                Log.w(TAG_FACE_SCAN, "No cameras found")
+                onCameraErrorCallback()
+                return@launchWhenResumed
+            }
+
             val preview = Preview.Builder()
                 .build()
                 .apply {

@@ -26,8 +26,8 @@ class MainActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val scanIDFragmentTag by lazy { ScanIDCardFragment::class.java.canonicalName }
-    private val scanFaceFragmentTag by lazy { ScanFaceFragment::class.java.canonicalName }
+    private val scanIDFragmentTag = ScanIDCardFragment::class.java.canonicalName
+    private val scanFaceFragmentTag = ScanFaceFragment::class.java.canonicalName
 
     private val viewModel: MainViewModel by viewModels() {
         viewModelFactory
@@ -174,4 +174,3 @@ class MainActivity : DaggerAppCompatActivity() {
 fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) {
     liveData.observe(this, Observer(body))
 }
-

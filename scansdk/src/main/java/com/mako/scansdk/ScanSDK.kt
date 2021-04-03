@@ -15,6 +15,7 @@ interface ScanSDK {
     fun clearCachedData()
 
     companion object {
+        internal val TAG = ScanSDKImpl::class.java.simpleName
         private var instance: ScanSDK? = null
 
         /**
@@ -27,6 +28,15 @@ interface ScanSDK {
             }
             return instance!!
         }
+
+        fun get() : ScanSDK {
+            if (instance == null) {
+                val errorMessage = "ScanSDK is not initialized!"
+                Log.e(TAG, errorMessage)
+                throw IllegalStateException(errorMessage)
+            }
+            return instance!!
+        }
     }
 }
 
@@ -35,12 +45,11 @@ interface ScanSDK {
  * @param context of Application
  */
 internal class ScanSDKImpl(private val context: Context?) : ScanSDK {
-    private val TAG = ScanSDKImpl::class.java.simpleName
 
     override fun clearCachedData() {
         if (context == null) {
             val errorMessage = "Context is not initialized!"
-            Log.e(TAG, errorMessage)
+            Log.e(ScanSDK.TAG, errorMessage)
             throw IllegalStateException(errorMessage)
         }
         FileUtil.clearCachedData(context)
