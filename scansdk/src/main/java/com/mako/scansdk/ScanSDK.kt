@@ -28,15 +28,6 @@ interface ScanSDK {
             }
             return instance!!
         }
-
-        fun get() : ScanSDK {
-            if (instance == null) {
-                val errorMessage = "ScanSDK is not initialized!"
-                Log.e(TAG, errorMessage)
-                throw IllegalStateException(errorMessage)
-            }
-            return instance!!
-        }
     }
 }
 
