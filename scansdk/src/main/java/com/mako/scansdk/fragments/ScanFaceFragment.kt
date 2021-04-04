@@ -2,10 +2,14 @@ package com.mako.scansdk.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,11 +23,12 @@ import com.mako.scansdk.camera.FacePositionListener
 import com.mako.scansdk.camera.FaceScanManager
 import com.mako.scansdk.utils.FileUtil
 import com.mako.scansdk.utils.rotateFlipImage
-import kotlinx.android.synthetic.main.scan_face_card_fragment.*
+import kotlinx.android.synthetic.main.scan_face_scan_fragment.*
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+
 
 const val SCAN_FACE_RESULT_KEY = "scan_face_result_key"
 const val SCAN_FACE_FRAGMENT_RESULT = "scan_face_fragment_result"
@@ -48,7 +53,7 @@ class ScanFaceFragment : Fragment(), LifecycleObserver, FacePositionListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.scan_face_card_fragment, container, false)
+        return inflater.inflate(R.layout.scan_face_scan_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -150,6 +155,15 @@ class ScanFaceFragment : Fragment(), LifecycleObserver, FacePositionListener {
 
     override fun isPositionCorrect(correct: Boolean) {
         btn_capture_face.isEnabled = correct
+    }
+
+    private fun extractBitmap(viewGroup: ViewGroup): Bitmap? {
+        val width = viewGroup.width
+        val height = viewGroup.width
+        val createBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(createBitmap)
+        viewGroup.draw(canvas)
+        return createBitmap
     }
 }
 

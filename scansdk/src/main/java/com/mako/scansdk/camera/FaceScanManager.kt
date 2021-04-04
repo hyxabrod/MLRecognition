@@ -3,10 +3,10 @@ package com.mako.scansdk.camera
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
+import android.util.SparseArray
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -18,6 +18,7 @@ import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.mako.scansdk.utils.imageToBitmap
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+
 
 private const val TAG_FACE_SCAN = "Face scan debug"
 
@@ -35,8 +36,6 @@ internal class FaceScanManager(
     private val graphicOverlay: GraphicOverlay
 ) : ScanManager(context) {
 
-    var faceGraphic: FaceContourGraphic? = null
-
     private var facePositionListener: FacePositionListener? = null
     override var imageCapture: ImageCapture? = null
     override var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
@@ -45,6 +44,7 @@ internal class FaceScanManager(
     private val options = FaceDetectorOptions.Builder()
         .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
         .setContourMode(FaceDetectorOptions.CONTOUR_MODE_ALL)
+        .enableTracking()
         .build()
 
     private val detector = FaceDetection.getClient(options)
@@ -109,13 +109,12 @@ internal class FaceScanManager(
             ).addOnSuccessListener { results ->
                 graphicOverlay.clear()
                 results.forEach { face ->
-                    faceGraphic = FaceContourGraphic(
+                    graphicOverlay.add(FaceScanGraphic(
                         graphicOverlay,
                         face,
                         mediaImage.cropRect,
                         facePositionListener
-                    )
-                    graphicOverlay.add(faceGraphic!!)
+                    ))
                 }
                 graphicOverlay.postInvalidate()
                 proxy.close()
