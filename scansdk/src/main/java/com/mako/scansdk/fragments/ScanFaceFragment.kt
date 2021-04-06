@@ -156,15 +156,6 @@ class ScanFaceFragment : Fragment(), LifecycleObserver, FacePositionListener {
     override fun isPositionCorrect(correct: Boolean) {
         btn_capture_face.isEnabled = correct
     }
-
-    private fun extractBitmap(viewGroup: ViewGroup): Bitmap? {
-        val width = viewGroup.width
-        val height = viewGroup.width
-        val createBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(createBitmap)
-        viewGroup.draw(canvas)
-        return createBitmap
-    }
 }
 
 

@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
-import android.util.SparseArray
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -39,7 +38,7 @@ internal class FaceScanManager(
     private var facePositionListener: FacePositionListener? = null
     override var imageCapture: ImageCapture? = null
     override var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-    override var cameraProviderFuture: ProcessCameraProvider? = null
+    override var cameraProvider: ProcessCameraProvider? = null
 
     private val options = FaceDetectorOptions.Builder()
         .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
@@ -51,8 +50,8 @@ internal class FaceScanManager(
 
     override fun startCamera() {
         lifecycleOwner.lifecycleScope.launchWhenResumed {
-            cameraProviderFuture = getCameraProvider()
-            if(cameraProviderFuture?.availableCameraInfos?.size == 0){
+            cameraProvider = getCameraProvider()
+            if(cameraProvider?.availableCameraInfos?.size == 0){
                 Log.w(TAG_FACE_SCAN, "No cameras found")
                 onCameraErrorCallback()
                 return@launchWhenResumed
@@ -84,7 +83,7 @@ internal class FaceScanManager(
                     it.setAnalyzer(cameraExecutor, ::analyzeFaceContour)
                 }
 
-            cameraProviderFuture?.apply {
+            cameraProvider?.apply {
                 unbindAll()
                 bindToLifecycle(
                     lifecycleOwner, cameraSelector, preview, imageCapture, imageAnalyzer
@@ -126,7 +125,7 @@ internal class FaceScanManager(
 
     override fun stopCamera() {
         lifecycleOwner.lifecycleScope.launchWhenResumed {
-            cameraProviderFuture?.unbindAll()
+            cameraProvider?.unbindAll()
         }
     }
 

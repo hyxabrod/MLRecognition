@@ -21,7 +21,7 @@ internal abstract class ScanManager(
 ) : LifecycleObserver {
     abstract var imageCapture: ImageCapture?
     abstract var cameraExecutor: ExecutorService
-    abstract var cameraProviderFuture: ProcessCameraProvider?
+    abstract var cameraProvider: ProcessCameraProvider?
     protected lateinit var onCameraErrorCallback: () -> Unit
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)

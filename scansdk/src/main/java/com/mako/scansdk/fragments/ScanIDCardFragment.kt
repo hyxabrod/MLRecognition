@@ -43,7 +43,12 @@ class ScanIDCardFragment : Fragment(), LifecycleObserver {
     private var boxHeight: Int = 0
 
     private lateinit var canvas: Canvas
-    private lateinit var paint: Paint
+    private  var paint: Paint = Paint().also {
+        it.style = Paint.Style.STROKE
+        it.color = Color.parseColor("#FFFFFF")
+        it.strokeWidth = 5f
+    }
+
     private lateinit var holder: SurfaceHolder
     private lateinit var cardRect: Rect
 
@@ -83,7 +88,7 @@ class ScanIDCardFragment : Fragment(), LifecycleObserver {
             }
 
             override fun surfaceChanged(p0: SurfaceHolder, p1: Int, p2: Int, p3: Int) {
-                drawRect(Color.parseColor("#FFFFFF"))
+                drawRect()
             }
 
             override fun surfaceDestroyed(p0: SurfaceHolder) {
@@ -122,7 +127,7 @@ class ScanIDCardFragment : Fragment(), LifecycleObserver {
         }
     }
 
-    private fun drawRect(color: Int) {
+    private fun drawRect() {
         val height: Int = pv_preview.height
         val width: Int = pv_preview.width
         cameraHeight = height
@@ -134,11 +139,6 @@ class ScanIDCardFragment : Fragment(), LifecycleObserver {
         canvas = holder.lockCanvas()
         val cardBoxPadding = width * 0.1
         canvas.drawColor(0, PorterDuff.Mode.CLEAR)
-
-        paint = Paint()
-        paint.style = Paint.Style.STROKE
-        paint.color = color
-        paint.strokeWidth = 5f
 
         left = cardBoxPadding.toFloat()
         right = (width - cardBoxPadding).toFloat()
